@@ -25,7 +25,7 @@ fun collide(b: Ball, g: Game): Int{
 fun ballLeavesCanvas(b: Ball,g: Game): Boolean =
         b.y >= g.area.height
 
-fun step(maxWidth: Int, maxHeight: Int, b: Ball, g: Game): Ball =
+fun step(maxWidth: Int, maxHeight: Int, b: Ball): Ball =
         when{
             b.x !in 0..maxWidth - b.radius -> Ball(b.x-b.dx,b.y,-b.dx,b.dy,b.radius)
             b.y < b.radius  -> Ball(b.x,b.y - b.dy,b.dx,-b.dy,b.radius)

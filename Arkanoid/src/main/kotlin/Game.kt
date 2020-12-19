@@ -20,7 +20,7 @@ fun moveRacket(x: Int, g: Game): Game {
 }
 
 fun step(g:Game): Game {
-    val movedBalls: List<Ball> = g.balls.map{ balls -> step(g.area.width,g.area.height,balls,g)}
+    val movedBalls: List<Ball> = g.balls.map{ balls -> step(g.area.width,g.area.height,balls)}
     val leftBalls: List<Ball> =  movedBalls.filter{ balls -> !ballLeavesCanvas(balls,g)}
     return Game(g.area,g.racket,leftBalls)
 }
