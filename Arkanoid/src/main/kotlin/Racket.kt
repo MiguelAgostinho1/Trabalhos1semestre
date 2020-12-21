@@ -19,9 +19,9 @@ fun move(x: Int,a: Area, r: Racket): Racket = Racket(x,RACKET_Y,RACKET_WIDTH,RAC
 fun Canvas.drawRacket(r: Racket){
     this.erase()
     this.drawRect(r.x,r.y,r.width,r.height/2,WHITE) //BASE
-    this.drawRect(r.x + RACKET_CENTER_POSITION,r.y-r.height/2,RACKET_CENTER_WIDTH,r.height/2,WHITE) //UPPER CENTER
-    this.drawRect(r.x,r.y-r.height/2,RACKET_RED_WIDTH,r.height/2,RED) //LEFT RED PART
-    this.drawRect(r.x + RACKET_RED_WIDTH,r.y-r.height/2,RACKET_CORAL_WIDTH,r.height/2,0xFF7F50) //LEFT CORAL PART
-    this.drawRect(r.x + RACKET_RED_POSITION,r.y-r.height/2,RACKET_RED_WIDTH,r.height/2,RED) //RIGHT RED PART
-    this.drawRect(r.x + RACKET_CORAL_POSITION,r.y-r.height/2,RACKET_CORAL_WIDTH,r.height/2,0xFF7F50) //RIGHT CORAL PART
+    this.drawRect(r.x + RACKET_CENTER_POSITION,r.y-r.height/2,RACKET_CENTER_WIDTH,r.height/2,WHITE)         //UPPER CENTER
+    this.drawRect(r.x,r.y-r.height/2,RACKET_RED_WIDTH,r.height/2,RED)                                          //LEFT RED PART
+    this.drawRect(r.x + RACKET_RED_WIDTH,r.y-r.height/2,RACKET_CORAL_WIDTH,r.height/2,0xFF7F50)        //LEFT CORAL PART
+    this.drawRect(r.x + RACKET_RED_POSITION,r.y-r.height/2,RACKET_RED_WIDTH,r.height/2,RED)                 //RIGHT RED PART
+    this.drawRect(r.x + RACKET_CORAL_POSITION,r.y-r.height/2,RACKET_CORAL_WIDTH,r.height/2,0xFF7F50)   //RIGHT CORAL PART
 }
