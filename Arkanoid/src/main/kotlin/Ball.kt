@@ -3,13 +3,13 @@ import pt.isel.canvas.CYAN
 
 const val BALL_RADIUS: Int = 7
 
-data class Ball(val x: Int, val y: Int, var dx: Int, var dy: Int, val radius: Int)
+data class Ball(var x: Int, var y: Int, var dx: Int, var dy: Int, val radius: Int)
 
-fun createBalls(maxWidth: Int, maxHeight: Int): Ball =
-        Ball((0..maxWidth-BALL_RADIUS).random(),maxHeight-BALL_RADIUS,(-6..6).random(),-4,BALL_RADIUS)
+fun createBalls(x: Int, y: Int, dx: Int, dy: Int): Ball =
+        Ball(x,y,dx,dy,BALL_RADIUS)
 
-fun drawBalls(cv:Canvas, b:Ball){
-    cv.drawCircle(b.x,b.y,b.radius,CYAN)
+fun Canvas.drawBalls(b:Ball){
+    this.drawCircle(b.x,b.y,b.radius,CYAN)
 }
 
 fun collide(b: Ball, g: Game): Int{

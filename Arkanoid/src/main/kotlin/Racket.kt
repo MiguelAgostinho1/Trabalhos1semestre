@@ -3,9 +3,9 @@ import pt.isel.canvas.WHITE
 import pt.isel.canvas.RED
 
 const val RACKET_Y : Int = 549
-const val RACKET_WIDTH: Int = 90
+const val RACKET_WIDTH: Int = 60
 const val RACKET_HEIGHT: Int = 10
-const val RACKET_CENTER_POSITION: Int = RACKET_WIDTH - 65
+const val RACKET_CENTER_POSITION: Int = RACKET_WIDTH - 35
 const val RACKET_CENTER_WIDTH: Int = RACKET_WIDTH - 50
 const val RACKET_RED_WIDTH: Int = 10
 const val RACKET_CORAL_WIDTH: Int = 15
