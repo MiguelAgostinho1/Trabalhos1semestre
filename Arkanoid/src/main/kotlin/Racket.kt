@@ -12,9 +12,9 @@ const val RACKET_CORAL_WIDTH: Int = 15
 const val RACKET_RED_POSITION: Int = RACKET_RED_WIDTH + 2*RACKET_CORAL_WIDTH + RACKET_CENTER_WIDTH
 const val RACKET_CORAL_POSITION: Int = RACKET_RED_WIDTH + RACKET_CORAL_WIDTH + RACKET_CENTER_WIDTH
 
-data class Racket(val x: Int, val y: Int = RACKET_Y,val width: Int,val height: Int)
+data class Racket(val x: Int, val y: Int = RACKET_Y,val width: Int,val height: Int, val active: Boolean)
 
-fun move(x: Int,a: Area, r: Racket): Racket = Racket(x,RACKET_Y,RACKET_WIDTH,RACKET_HEIGHT)
+fun move(x: Int,a: Area, r: Racket): Racket = Racket(x,RACKET_Y,RACKET_WIDTH,RACKET_HEIGHT, false)
 
 fun Canvas.drawRacket(r: Racket){
     this.erase()
