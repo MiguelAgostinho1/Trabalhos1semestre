@@ -2,6 +2,9 @@ import pt.isel.canvas.*
 
 const val FONT_SIZE = 25
 const val SPACE_BETWEEN_BALLS = 5
+const val GOLD = 0xFFD700
+const val ORANGE = 0xFFA500
+const val SILVER = 0xC0C0C0
 
 data class Area(val width: Int, val height: Int)
 data class Game(val area:Area, val racket:Racket, val balls:List<Ball>, var blocks:List<Blocks>)
@@ -59,7 +62,7 @@ fun addRightBlocksToList(g: Game):List<Blocks>{
         rightStarting = rightStarting + createBlocks(BLOCK_WIDTH + BLOCK_WIDTH * i, BLOCK_HEIGHT*9, 1, CYAN)
     }
     for (i: Int in 0..2) {
-        rightStarting = rightStarting + createBlocks(BLOCK_WIDTH + BLOCK_WIDTH * i, BLOCK_HEIGHT*10, 1, 0xFFA500)
+        rightStarting = rightStarting + createBlocks(BLOCK_WIDTH + BLOCK_WIDTH * i, BLOCK_HEIGHT*10, 1, ORANGE)
     }
     for (i: Int in 0..2) {
         rightStarting = rightStarting + createBlocks(BLOCK_WIDTH + BLOCK_WIDTH * i,  BLOCK_HEIGHT*11, 1, WHITE)
@@ -73,7 +76,7 @@ fun addLeftBlocksToList(g: Game):List<Blocks>{
         leftStarting = leftStarting + createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i,  BLOCK_HEIGHT*4, 1, YELLOW)
     }
     for (i: Int in 0..2) {
-        leftStarting = leftStarting + createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i, BLOCK_HEIGHT*5, 1, 0xFFC0CB)
+        leftStarting = leftStarting + createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i, BLOCK_HEIGHT*5, 1, MAGENTA)
     }
     for (i: Int in 0..2) {
         leftStarting = leftStarting + createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i, BLOCK_HEIGHT*6, 1, BLUE)
@@ -88,7 +91,7 @@ fun addLeftBlocksToList(g: Game):List<Blocks>{
         leftStarting = leftStarting + createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i, BLOCK_HEIGHT*9, 1, CYAN)
     }
     for (i: Int in 0..2) {
-        leftStarting = leftStarting + createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i, BLOCK_HEIGHT*10, 1, MAGENTA)
+        leftStarting = leftStarting + createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i, BLOCK_HEIGHT*10, 1, ORANGE)
     }
     for (i: Int in 0..2) {
         leftStarting = leftStarting + createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i, BLOCK_HEIGHT*11, 1, WHITE)
@@ -97,7 +100,7 @@ fun addLeftBlocksToList(g: Game):List<Blocks>{
 }
 
 fun addCenterBlocksToList(g: Game):List<Blocks>{
-    var centerStarting: List<Blocks> = g.blocks + createBlocks(BLOCK_WIDTH*5,BLOCK_HEIGHT + BLOCK_HEIGHT*3, 1, WHITE) + createBlocks(BLOCK_WIDTH*6,BLOCK_HEIGHT + BLOCK_HEIGHT*3,100000000,0x996515) + createBlocks(BLOCK_WIDTH*7,BLOCK_HEIGHT*4, 1, WHITE)
+    var centerStarting: List<Blocks> = g.blocks + createBlocks(BLOCK_WIDTH*5,BLOCK_HEIGHT + BLOCK_HEIGHT*3, 1, WHITE) + createBlocks(BLOCK_WIDTH*7,BLOCK_HEIGHT*4, 1, WHITE)
     for (i: Int in 0..2) {
         centerStarting = centerStarting + createBlocks(BLOCK_WIDTH*5 + BLOCK_WIDTH * i, BLOCK_HEIGHT*5, 1, MAGENTA)
     }
@@ -114,10 +117,10 @@ fun addCenterBlocksToList(g: Game):List<Blocks>{
         centerStarting = centerStarting + createBlocks(BLOCK_WIDTH*5 + BLOCK_WIDTH * i, BLOCK_HEIGHT*9, 1, BLUE)
     }
     for (i: Int in 0..2) {
-        centerStarting = centerStarting + createBlocks(BLOCK_WIDTH*5 + BLOCK_WIDTH * i, BLOCK_HEIGHT*10, 1, 0xFFC0CB)
+        centerStarting = centerStarting + createBlocks(BLOCK_WIDTH*5 + BLOCK_WIDTH * i, BLOCK_HEIGHT*10, 1, MAGENTA)
     }
     for (i: Int in 0..2) {
-        centerStarting = centerStarting + createBlocks(BLOCK_WIDTH*5 + BLOCK_WIDTH * i, BLOCK_HEIGHT*11, 1, 0x808080)
+        centerStarting = centerStarting + createBlocks(BLOCK_WIDTH*5 + BLOCK_WIDTH * i, BLOCK_HEIGHT*11, 2, SILVER)
     }
     return centerStarting
 }

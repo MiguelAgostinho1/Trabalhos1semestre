@@ -27,10 +27,29 @@ fun ballLeavesCanvas(b: Ball,g: Game): Boolean =
 
 fun step(maxWidth: Int, b: Ball,g:Game): Ball =
         when{
-            b.x !in 0..maxWidth - b.radius -> Ball(b.x-b.dx,b.y,-b.dx,b.dy,b.radius)
-            b.y < b.radius  -> Ball(b.x,b.y - b.dy,b.dx,-b.dy,b.radius)
-            b.x + b.radius in (g.racket.x .. g.racket.x + RACKET_WIDTH) && b.y == g.racket.y && b.dy == 4 -> Ball(b.x,b.y - b.dy,b.dx + collide(b,g), -b.dy,b.radius)
-            else -> Ball(b.x + b.dx,b.y + b.dy,b.dx,b.dy,b.radius)
+            b.x !in 0..maxWidth - b.radius -> {
+                //println(g.racket.x)
+                //println(b.x)
+                Ball(b.x-b.dx,b.y,-b.dx,b.dy,b.radius)
+            }
+            b.y < b.radius  -> {
+                //println(g.racket.x)
+                //println(b.x)
+                Ball(b.x,b.y - b.dy,b.dx,-b.dy,b.radius)
+            }
+            b.x + b.radius in (g.racket.x .. g.racket.x + RACKET_WIDTH) && b.y == g.racket.y && b.dy == 4 -> {
+                println(g.racket.x)
+                println(g.balls[0].x)
+                Ball(b.x,b.y - b.dy,b.dx + collide(b,g), -b.dy,b.radius)
+            }
+            b.y  < BLOCK_HEIGHT*12 && b.x +b.radius in (BLOCK_WIDTH*7..BLOCK_WIDTH*8) -> {
+                //println(g.racket.x)
+                Ball(b.x,b.y - b.dy,b.dx,-b.dy,b.radius)}
+            else -> {
+                println(g.racket.x)
+                println(b.x)
+                Ball(b.x + b.dx,b.y + b.dy,b.dx,b.dy,b.radius)
+            }
         }
 
 
