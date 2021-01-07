@@ -44,28 +44,14 @@ fun startingBalls(g: Game): Game {
 fun addRightBlocksToList(g: Game):List<Blocks>{
     var rightStarting: List<Blocks> = g.blocks
     for (i: Int in 0..2) {
-        rightStarting = rightStarting + createBlocks(BLOCK_WIDTH + BLOCK_WIDTH * i, BLOCK_HEIGHT*4, 1, YELLOW)
-    }
-    for (i: Int in 0..2) {
-        rightStarting = rightStarting + createBlocks(BLOCK_WIDTH + BLOCK_WIDTH * i, BLOCK_HEIGHT*5, 1, MAGENTA)
-    }
-    for (i: Int in 0..2) {
-        rightStarting = rightStarting + createBlocks(BLOCK_WIDTH + BLOCK_WIDTH * i, BLOCK_HEIGHT*6, 1, BLUE)
-    }
-    for (i: Int in 0..2) {
-        rightStarting = rightStarting + createBlocks(BLOCK_WIDTH + BLOCK_WIDTH * i, BLOCK_HEIGHT*7, 1, RED)
-    }
-    for (i: Int in 0..2) {
-        rightStarting = rightStarting + createBlocks(BLOCK_WIDTH + BLOCK_WIDTH * i, BLOCK_HEIGHT*8, 1, GREEN)
-    }
-    for (i: Int in 0..2) {
-        rightStarting = rightStarting + createBlocks(BLOCK_WIDTH + BLOCK_WIDTH * i, BLOCK_HEIGHT*9, 1, CYAN)
-    }
-    for (i: Int in 0..2) {
-        rightStarting = rightStarting + createBlocks(BLOCK_WIDTH + BLOCK_WIDTH * i, BLOCK_HEIGHT*10, 1, ORANGE)
-    }
-    for (i: Int in 0..2) {
-        rightStarting = rightStarting + createBlocks(BLOCK_WIDTH + BLOCK_WIDTH * i,  BLOCK_HEIGHT*11, 1, WHITE)
+        rightStarting = rightStarting + createBlocks(BLOCK_WIDTH + BLOCK_WIDTH * i, BLOCK_HEIGHT*4, 1, YELLOW) +
+                createBlocks(BLOCK_WIDTH + BLOCK_WIDTH * i, BLOCK_HEIGHT*5, 1, MAGENTA) +
+                createBlocks(BLOCK_WIDTH + BLOCK_WIDTH * i, BLOCK_HEIGHT*6, 1, BLUE) +
+                createBlocks(BLOCK_WIDTH + BLOCK_WIDTH * i, BLOCK_HEIGHT*7, 1, RED) +
+                createBlocks(BLOCK_WIDTH + BLOCK_WIDTH * i, BLOCK_HEIGHT*8, 1, GREEN) +
+                createBlocks(BLOCK_WIDTH + BLOCK_WIDTH * i, BLOCK_HEIGHT*9, 1, CYAN) +
+                createBlocks(BLOCK_WIDTH + BLOCK_WIDTH * i, BLOCK_HEIGHT*10, 1, ORANGE) +
+                createBlocks(BLOCK_WIDTH + BLOCK_WIDTH * i,  BLOCK_HEIGHT*11, 1, WHITE)
     }
     return rightStarting
 }
@@ -73,54 +59,29 @@ fun addRightBlocksToList(g: Game):List<Blocks>{
 fun addLeftBlocksToList(g: Game):List<Blocks>{
     var leftStarting: List<Blocks> = g.blocks
     for (i: Int in 0..2) {
-        leftStarting = leftStarting + createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i,  BLOCK_HEIGHT*4, 1, YELLOW)
-    }
-    for (i: Int in 0..2) {
-        leftStarting = leftStarting + createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i, BLOCK_HEIGHT*5, 1, MAGENTA)
-    }
-    for (i: Int in 0..2) {
-        leftStarting = leftStarting + createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i, BLOCK_HEIGHT*6, 1, BLUE)
-    }
-    for (i: Int in 0..2) {
-        leftStarting = leftStarting + createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i, BLOCK_HEIGHT*7, 1, RED)
-    }
-    for (i: Int in 0..2) {
-        leftStarting = leftStarting + createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i, BLOCK_HEIGHT*8, 1, GREEN)
-    }
-    for (i: Int in 0..2) {
-        leftStarting = leftStarting + createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i, BLOCK_HEIGHT*9, 1, CYAN)
-    }
-    for (i: Int in 0..2) {
-        leftStarting = leftStarting + createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i, BLOCK_HEIGHT*10, 1, ORANGE)
-    }
-    for (i: Int in 0..2) {
-        leftStarting = leftStarting + createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i, BLOCK_HEIGHT*11, 1, WHITE)
+        leftStarting = leftStarting + createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i,  BLOCK_HEIGHT*4, 1, YELLOW) +
+                createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i, BLOCK_HEIGHT*5, 1, MAGENTA) +
+                createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i, BLOCK_HEIGHT*6, 1, BLUE) +
+                createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i, BLOCK_HEIGHT*7, 1, RED) +
+                createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i, BLOCK_HEIGHT*8, 1, GREEN) +
+                createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i, BLOCK_HEIGHT*9, 1, CYAN) +
+                createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i, BLOCK_HEIGHT*10, 1, ORANGE) +
+                createBlocks(BLOCK_WIDTH*11 - BLOCK_WIDTH * i, BLOCK_HEIGHT*11, 1, WHITE)
     }
     return leftStarting
 }
 
 fun addCenterBlocksToList(g: Game):List<Blocks>{
-    var centerStarting: List<Blocks> = g.blocks + createBlocks(BLOCK_WIDTH*5,BLOCK_HEIGHT + BLOCK_HEIGHT*3, 1, WHITE) + createBlocks(BLOCK_WIDTH*7,BLOCK_HEIGHT*4, 1, WHITE)
+    var centerStarting: List<Blocks> = g.blocks + createBlocks(BLOCK_WIDTH*5,BLOCK_HEIGHT + BLOCK_HEIGHT*3, 1, WHITE) +
+            createBlocks(BLOCK_WIDTH*7,BLOCK_HEIGHT*4, 1, WHITE)
     for (i: Int in 0..2) {
-        centerStarting = centerStarting + createBlocks(BLOCK_WIDTH*5 + BLOCK_WIDTH * i, BLOCK_HEIGHT*5, 1, MAGENTA)
-    }
-    for (i: Int in 0..2) {
-        centerStarting = centerStarting + createBlocks(BLOCK_WIDTH*5 + BLOCK_WIDTH * i, BLOCK_HEIGHT*6, 1, CYAN)
-    }
-    for (i: Int in 0..2) {
-        centerStarting = centerStarting + createBlocks(BLOCK_WIDTH*5 + BLOCK_WIDTH * i, BLOCK_HEIGHT*7, 1, GREEN)
-    }
-    for (i: Int in 0..2) {
-        centerStarting = centerStarting + createBlocks(BLOCK_WIDTH*5 + BLOCK_WIDTH * i, BLOCK_HEIGHT*8, 1, RED)
-    }
-    for (i: Int in 0..2) {
-        centerStarting = centerStarting + createBlocks(BLOCK_WIDTH*5 + BLOCK_WIDTH * i, BLOCK_HEIGHT*9, 1, BLUE)
-    }
-    for (i: Int in 0..2) {
-        centerStarting = centerStarting + createBlocks(BLOCK_WIDTH*5 + BLOCK_WIDTH * i, BLOCK_HEIGHT*10, 1, MAGENTA)
-    }
-    for (i: Int in 0..2) {
-        centerStarting = centerStarting + createBlocks(BLOCK_WIDTH*5 + BLOCK_WIDTH * i, BLOCK_HEIGHT*11, 2, SILVER)
+        centerStarting = centerStarting + createBlocks(BLOCK_WIDTH*5 + BLOCK_WIDTH * i, BLOCK_HEIGHT*5, 1, MAGENTA) +
+                createBlocks(BLOCK_WIDTH*5 + BLOCK_WIDTH * i, BLOCK_HEIGHT*6, 1, CYAN) +
+                createBlocks(BLOCK_WIDTH*5 + BLOCK_WIDTH * i, BLOCK_HEIGHT*7, 1, GREEN) +
+                createBlocks(BLOCK_WIDTH*5 + BLOCK_WIDTH * i, BLOCK_HEIGHT*8, 1, RED) +
+                createBlocks(BLOCK_WIDTH*5 + BLOCK_WIDTH * i, BLOCK_HEIGHT*9, 1, BLUE) +
+                createBlocks(BLOCK_WIDTH*5 + BLOCK_WIDTH * i, BLOCK_HEIGHT*10, 1, MAGENTA) +
+                createBlocks(BLOCK_WIDTH*5 + BLOCK_WIDTH * i, BLOCK_HEIGHT*11, 2, SILVER)
     }
     return centerStarting
 }
@@ -132,38 +93,38 @@ fun startingBlocks(g: Game): Game {
 }
 
 fun addBalls(g: Game): Game{
-        when{
-            g.balls.size == 6 -> {
+        when(g.balls.size){
+            6 -> {
                 g.balls[5].x = g.racket.x + RACKET_CENTER_POSITION
                 g.balls[5].y = g.racket.y + RACKET_CENTER_WIDTH
                 g.balls[5].dx = 0
                 g.balls[5].dy = -4
             }
-            g.balls.size == 5 -> {
+            5 -> {
                 g.balls[4].x = g.racket.x + RACKET_CENTER_POSITION
                 g.balls[4].y = g.racket.y + RACKET_CENTER_WIDTH
                 g.balls[4].dx = 0
                 g.balls[4].dy = -4
             }
-            g.balls.size == 4 -> {
+            4 -> {
                 g.balls[3].x = g.racket.x + RACKET_CENTER_POSITION
                 g.balls[3].y = g.racket.y + RACKET_CENTER_WIDTH
                 g.balls[3].dx = 0
                 g.balls[3].dy = -4
             }
-            g.balls.size == 3 -> {
+            3 -> {
                 g.balls[2].x = g.racket.x + RACKET_CENTER_POSITION
                 g.balls[2].y = g.racket.y + RACKET_CENTER_WIDTH
                 g.balls[2].dx = 0
                 g.balls[2].dy = -4
             }
-            g.balls.size == 2 -> {
+            2 -> {
                 g.balls[1].x = g.racket.x + RACKET_CENTER_POSITION
                 g.balls[1].y = g.racket.y + RACKET_CENTER_WIDTH
                 g.balls[1].dx = 0
                 g.balls[1].dy = -4
             }
-            g.balls.size == 1 -> {
+            1 -> {
                 g.balls[0].x = g.racket.x + RACKET_CENTER_POSITION
                 g.balls[0].y = g.racket.y + RACKET_CENTER_WIDTH
                 g.balls[0].dx = 0
@@ -203,7 +164,7 @@ fun main(){
             drawCounter(cv,game.balls.size)
         }
 
-        cv.onMouseDown { press: MouseEvent ->
+        cv.onMouseDown {
             game = addBalls(game)
         }
 
