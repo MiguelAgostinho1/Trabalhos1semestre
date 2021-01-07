@@ -1,17 +1,17 @@
 import pt.isel.canvas.*
 
 data class Area(val width: Int, val height: Int)
-data class Game(val area:Area, val racket:Racket, val balls:List<Ball>, var blocks:List<Blocks>)
+data class Game(val area:Area, val racket:Racket, val balls:List<Ball>, var blocks:List<Blocks>, var livesLeft: Int)
 
 const val FONT_SIZE = 25
-//const val SPACE_BETWEEN_BALLS = 5
 const val GOLD = 0xFFD700
 const val ORANGE = 0xFFA500
 const val SILVER = 0xC0C0C0
+const val SPACE_BETWEEN_BALLS = 5
 
 fun startGame(a: Area): Game {
-    val r = Racket(a.width/2,RACKET_Y,RACKET_WIDTH, RACKET_HEIGHT,false)
-    return Game(a,r, listOf(), listOf())
+    val r = Racket(a.width/2 - RACKET_WIDTH/2,RACKET_Y,RACKET_WIDTH, RACKET_HEIGHT)
+    return Game(a,r, listOf(), listOf(),6)
 }
 
 fun draw(cv: Canvas, g: Game){
@@ -23,35 +23,41 @@ fun draw(cv: Canvas, g: Game){
 
 fun moveRacket(x: Int, g: Game): Game {
     val r: Racket = move(x,g.area, g.racket)
-    return Game(g.area,r,g.balls,g.blocks)
+    return Game(g.area,r,g.balls,g.blocks,g.livesLeft)
 }
 
 fun step(g:Game): Game {
     val movedBalls: List<Ball> = g.balls.map{ balls -> step(g.area.width,balls,g)}
     val leftBalls: List<Ball> =  movedBalls.filter{ balls -> !ballLeavesCanvas(balls,g)}
     val leftBlocks: List<Blocks> = g.blocks.filter{ blocks -> !blocksWithZeroHp(blocks)}
-    return Game(g.area,g.racket,leftBalls,leftBlocks)
+    return Game(g.area,g.racket,leftBalls,leftBlocks,g.livesLeft)
 }
 
 fun startingBall(g: Game): Game{
     val startingBalls: List<Ball> = g.balls + createBalls(g.racket.x + RACKET_CENTER_POSITION,g.racket.y - RACKET_CENTER_WIDTH,0,0)
-    return Game(g.area,g.racket,startingBalls,g.blocks)
+    return Game(g.area,g.racket,startingBalls,g.blocks,g.livesLeft)
 }
 
-fun ballSpeed(b: Ball):Ball=
-        Ball(b.x,b.y,b.dx,-4,b.radius)
+fun ballSpeed(b: Ball):Ball{
+    when(b.dy){
+        0 -> b.dy = -4
+        4 -> b.dy = 4
+        -4 -> b.dy = -4
+    }
+    return Ball(b.x,b.y,b.dx,b.dy,b.radius)
+}
 
 fun addBalls(g: Game): Game {
-    val stuckBalls: List<Ball> = g.balls.filter{balls ->  g.racket.x == balls.x - RACKET_WIDTH/2 && g.racket.y == balls.y - RACKET_HEIGHT/2 && balls.dy == 0}
-    var plus: List<Ball> = listOf()
-    if(stuckBalls.isEmpty()){
+    val stuckBalls: List<Ball> = g.balls.filter{balls ->  balls.dy == 0}
+    val plus: List<Ball>
+    if(stuckBalls.isEmpty() && g.balls.isEmpty()){
         plus = g.balls + createBalls(g.racket.x,g.racket.y,0,0)
     }
     else{
-        plus = stuckBalls
+        plus = g.balls
         plus.forEach { balls -> ballSpeed(balls)}
     }
-    return Game(g.area,g.racket,plus,g.blocks)
+    return Game(g.area,g.racket,plus,g.blocks,g.livesLeft)
 }
 
 fun addRightBlocksToList(g: Game):List<Blocks>{
@@ -102,11 +108,41 @@ fun addCenterBlocksToList(g: Game):List<Blocks>{
 fun startingBlocks(g: Game): Game {
     val starting: List<Blocks> = addRightBlocksToList(g) + addCenterBlocksToList(g) + addLeftBlocksToList(g)
     g.blocks = starting
-    return Game(g.area,g.racket,g.balls,g.blocks)
+    return Game(g.area,g.racket,g.balls,g.blocks,g.livesLeft)
+}
+
+fun Canvas.drawLifesLeft(g:Game){
+    when(g.livesLeft){
+        6-> {
+            drawCircle(BALL_RADIUS + SPACE_BETWEEN_BALLS,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
+            drawCircle(BALL_RADIUS*2 + SPACE_BETWEEN_BALLS*3,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
+            drawCircle(BALL_RADIUS*3 + SPACE_BETWEEN_BALLS*5,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
+            drawCircle(BALL_RADIUS*4 + SPACE_BETWEEN_BALLS*7,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
+            drawCircle(BALL_RADIUS*5 + SPACE_BETWEEN_BALLS*9,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
+        }
+        5-> {
+            drawCircle(BALL_RADIUS + SPACE_BETWEEN_BALLS,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
+            drawCircle(BALL_RADIUS*2 + SPACE_BETWEEN_BALLS*3,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
+            drawCircle(BALL_RADIUS*3 + SPACE_BETWEEN_BALLS*5,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
+            drawCircle(BALL_RADIUS*4 + SPACE_BETWEEN_BALLS*7,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
+        }
+        4-> {
+            drawCircle(BALL_RADIUS + SPACE_BETWEEN_BALLS,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
+            drawCircle(BALL_RADIUS*2 + SPACE_BETWEEN_BALLS*3,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
+            drawCircle(BALL_RADIUS*3 + SPACE_BETWEEN_BALLS*5,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
+        }
+        3-> {
+            drawCircle(BALL_RADIUS + SPACE_BETWEEN_BALLS,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
+            drawCircle(BALL_RADIUS*2 + SPACE_BETWEEN_BALLS*3,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
+        }
+        2-> {
+            drawCircle(BALL_RADIUS + SPACE_BETWEEN_BALLS,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
+        }
+    }
 }
 
 fun drawCounter(cv: Canvas, counter: Int){
-    cv.drawText(cv.width/2,cv.height,counter.toString(),WHITE,50)
+    cv.drawText(cv.width/2 - FONT_SIZE,cv.height,counter.toString(),WHITE,FONT_SIZE)
 }
 
 fun main(){
@@ -126,16 +162,22 @@ fun main(){
         cv.onTimeProgress(10){
             game = step(game)
             draw(cv,game)
-            drawCounter(cv,game.balls.size)
+            drawCounter(cv,game.livesLeft)
+            cv.drawLifesLeft(game)
         }
 
         cv.onMouseDown {
-            game = addBalls(game)
+            if(game.livesLeft > 0 || game.blocks.isEmpty()){
+                game = addBalls(game)
+            }
+            else{
+                null
+            }
         }
 
         cv.onTime(5000){
             cv.onTimeProgress(10){
-                if(game.balls.isEmpty()){
+                if(game.livesLeft == 0){
                     cv.drawText(0,game.area.height,"Game Over",RED,FONT_SIZE)
                 }
                 if(game.blocks.isEmpty()){

@@ -6,7 +6,7 @@ const val BALL_RADIUS: Int = 7
 data class Ball(val x: Int, val y: Int, var dx: Int, var dy: Int, val radius: Int)
 
 fun createBalls(x: Int, y: Int, dx: Int, dy: Int): Ball =
-        Ball(x,y,dx,dy,BALL_RADIUS)
+        Ball(x-30,y-12,dx,dy,BALL_RADIUS)
 
 fun drawBalls(cv:Canvas, b:Ball){
     cv.drawCircle(b.x,b.y,b.radius,CYAN)
@@ -22,8 +22,16 @@ fun collide(b: Ball, g: Game): Int{
     }
 }
 
-fun ballLeavesCanvas(b: Ball,g: Game): Boolean =
-        b.y >= g.area.height
+fun ballLeavesCanvas(b: Ball,g: Game): Boolean{
+    if(b.y >= g.area.height){
+    g.livesLeft--
+    }
+    else{
+        null
+    }
+    return b.y >= g.area.height
+}
+
 
 fun step(maxWidth: Int, b: Ball,g:Game): Ball =
         if(b.dy == 4 || b.dy == -4) {
@@ -31,6 +39,8 @@ fun step(maxWidth: Int, b: Ball,g:Game): Ball =
                 b.x !in 0..maxWidth - b.radius -> Ball(b.x - b.dx, b.y, -b.dx, b.dy, b.radius)
                 b.y < b.radius -> Ball(b.x, b.y - b.dy, b.dx, -b.dy, b.radius)
                 b.x + b.radius in (g.racket.x..g.racket.x + RACKET_WIDTH) && b.y == g.racket.y && b.dy == 4 -> Ball(b.x, b.y - b.dy, b.dx + collide(b, g), -b.dy, b.radius)
+                b.y  < BLOCK_HEIGHT*5 && b.x +b.radius in (GOLDEN_BLOCK_X..GOLDEN_BLOCK_X + BLOCK_WIDTH) -> Ball(b.x,b.y - b.dy,b.dx,-b.dy,b.radius)
+                //b.dy == 4 && b.y  > BLOCK_HEIGHT*4 && b.x + b.radius in (GOLDEN_BLOCK_X..GOLDEN_BLOCK_X + BLOCK_WIDTH) -> Ball(b.x,b.y + b.dy,b.dx,b.dy,b.radius)
                 else -> Ball(b.x + b.dx, b.y + b.dy, b.dx, b.dy, b.radius)
             }
         }
