@@ -14,7 +14,7 @@ const val RACKET_CORAL_POSITION: Int = RACKET_RED_WIDTH + RACKET_CORAL_WIDTH + R
 
 data class Racket(val x: Int, val y: Int = RACKET_Y,val width: Int,val height: Int, val active: Boolean)
 
-fun move(x: Int,a: Area, r: Racket): Racket = Racket(x,RACKET_Y,RACKET_WIDTH,RACKET_HEIGHT, false)
+fun move(x: Int,a: Area, r: Racket): Racket = Racket(x,RACKET_Y,RACKET_WIDTH,RACKET_HEIGHT,r.active)
 
 fun Canvas.drawRacket(r: Racket){
     this.erase()

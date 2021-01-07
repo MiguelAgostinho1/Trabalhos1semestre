@@ -13,12 +13,12 @@ fun blocksWithZeroHp(b:Blocks):Boolean =
 fun createBlocks(x: Int, y: Int, hp: Int, color: Int):Blocks =
         Blocks(x,y,hp,color)
 
-fun Canvas.drawBlocks(b: Blocks,game: Game){
-        //(3Y,3M,3B,3R,3G,3C,3O,3W)-L&R
-        //(1W1G1W,3O,3C,3G,3R,3B,3M,3S)-C
+fun Canvas.drawBlocks(b:Blocks, game: Game){
+    //(3Y,3M,3B,3R,3G,3C,3O,3W)-L&R
+    //(1W1G1W,3O,3C,3G,3R,3B,3M,3S)-C
     this.drawRect(GOLDEN_BLOCK_X,GOLDEN_BLOCK_Y,BLOCK_WIDTH,BLOCK_HEIGHT,GOLD,1)
     this.drawRect(GOLDEN_BLOCK_X,GOLDEN_BLOCK_Y,BLOCK_WIDTH-1,BLOCK_HEIGHT-1,GOLD)
-    for(i in 0..game.blocks.size-1){
+    for(i in game.blocks.indices){
         if(game.blocks[i].hp > 0){
             this.drawRect(game.blocks[i].x,game.blocks[i].y,BLOCK_WIDTH,BLOCK_HEIGHT,game.blocks[i].color,1)
             this.drawRect(game.blocks[i].x,game.blocks[i].y,BLOCK_WIDTH-1,BLOCK_HEIGHT-1,game.blocks[i].color)

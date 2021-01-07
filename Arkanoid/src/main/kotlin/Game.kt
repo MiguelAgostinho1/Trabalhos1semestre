@@ -1,13 +1,13 @@
 import pt.isel.canvas.*
 
+data class Area(val width: Int, val height: Int)
+data class Game(val area:Area, val racket:Racket, val balls:List<Ball>, var blocks:List<Blocks>)
+
 const val FONT_SIZE = 25
-const val SPACE_BETWEEN_BALLS = 5
+//const val SPACE_BETWEEN_BALLS = 5
 const val GOLD = 0xFFD700
 const val ORANGE = 0xFFA500
 const val SILVER = 0xC0C0C0
-
-data class Area(val width: Int, val height: Int)
-data class Game(val area:Area, val racket:Racket, val balls:List<Ball>, var blocks:List<Blocks>)
 
 fun startGame(a: Area): Game {
     val r = Racket(a.width/2,RACKET_Y,RACKET_WIDTH, RACKET_HEIGHT,false)
@@ -17,7 +17,7 @@ fun startGame(a: Area): Game {
 fun draw(cv: Canvas, g: Game){
     cv.erase()
     cv.drawRacket(g.racket)
-    g.balls.forEach{balls -> cv.drawBalls(balls)}
+    g.balls.forEach{balls -> drawBalls(cv,balls)}
     g.blocks.forEach{blocks -> cv.drawBlocks(blocks,g)}
 }
 
@@ -33,12 +33,25 @@ fun step(g:Game): Game {
     return Game(g.area,g.racket,leftBalls,leftBlocks)
 }
 
-fun startingBalls(g: Game): Game {
-    var startingBalls: List<Ball> = g.balls + createBalls(g.racket.x + RACKET_CENTER_POSITION,g.racket.y - RACKET_CENTER_WIDTH,0,-4)
-    for(i in 1..5){
-        startingBalls = startingBalls + createBalls(BALL_RADIUS + BALL_RADIUS*i*2 + SPACE_BETWEEN_BALLS*i,g.area.height - BALL_RADIUS,0,0)
-    }
+fun startingBall(g: Game): Game{
+    val startingBalls: List<Ball> = g.balls + createBalls(g.racket.x + RACKET_CENTER_POSITION,g.racket.y - RACKET_CENTER_WIDTH,0,0)
     return Game(g.area,g.racket,startingBalls,g.blocks)
+}
+
+fun ballSpeed(b: Ball):Ball=
+        Ball(b.x,b.y,b.dx,-4,b.radius)
+
+fun addBalls(g: Game): Game {
+    val stuckBalls: List<Ball> = g.balls.filter{balls ->  g.racket.x == balls.x - RACKET_WIDTH/2 && g.racket.y == balls.y - RACKET_HEIGHT/2 && balls.dy == 0}
+    var plus: List<Ball> = listOf()
+    if(stuckBalls.isEmpty()){
+        plus = g.balls + createBalls(g.racket.x,g.racket.y,0,0)
+    }
+    else{
+        plus = stuckBalls
+        plus.forEach { balls -> ballSpeed(balls)}
+    }
+    return Game(g.area,g.racket,plus,g.blocks)
 }
 
 fun addRightBlocksToList(g: Game):List<Blocks>{
@@ -92,56 +105,8 @@ fun startingBlocks(g: Game): Game {
     return Game(g.area,g.racket,g.balls,g.blocks)
 }
 
-fun addBalls(g: Game): Game{
-        when(g.balls.size){
-            6 -> {
-                g.balls[5].x = g.racket.x + RACKET_CENTER_POSITION
-                g.balls[5].y = g.racket.y + RACKET_CENTER_WIDTH
-                g.balls[5].dx = 0
-                g.balls[5].dy = -4
-            }
-            5 -> {
-                g.balls[4].x = g.racket.x + RACKET_CENTER_POSITION
-                g.balls[4].y = g.racket.y + RACKET_CENTER_WIDTH
-                g.balls[4].dx = 0
-                g.balls[4].dy = -4
-            }
-            4 -> {
-                g.balls[3].x = g.racket.x + RACKET_CENTER_POSITION
-                g.balls[3].y = g.racket.y + RACKET_CENTER_WIDTH
-                g.balls[3].dx = 0
-                g.balls[3].dy = -4
-            }
-            3 -> {
-                g.balls[2].x = g.racket.x + RACKET_CENTER_POSITION
-                g.balls[2].y = g.racket.y + RACKET_CENTER_WIDTH
-                g.balls[2].dx = 0
-                g.balls[2].dy = -4
-            }
-            2 -> {
-                g.balls[1].x = g.racket.x + RACKET_CENTER_POSITION
-                g.balls[1].y = g.racket.y + RACKET_CENTER_WIDTH
-                g.balls[1].dx = 0
-                g.balls[1].dy = -4
-            }
-            1 -> {
-                g.balls[0].x = g.racket.x + RACKET_CENTER_POSITION
-                g.balls[0].y = g.racket.y + RACKET_CENTER_WIDTH
-                g.balls[0].dx = 0
-                g.balls[0].dy = -4
-            }
-            else -> {
-                g.balls[5].x = g.racket.x + RACKET_CENTER_POSITION
-                g.balls[5].y = g.racket.y + RACKET_CENTER_WIDTH
-                g.balls[5].dx = 0
-                g.balls[5].dy = -4
-            }
-        }
-    return Game(g.area,g.racket,g.balls,g.blocks)
-}
-
 fun drawCounter(cv: Canvas, counter: Int){
-    cv.drawText(cv.width/2 - FONT_SIZE/2,cv.height,counter.toString(),WHITE,FONT_SIZE)
+    cv.drawText(cv.width/2,cv.height,counter.toString(),WHITE,50)
 }
 
 fun main(){
@@ -149,7 +114,7 @@ fun main(){
         val area = Area(416,600)
         val cv = Canvas(area.width,area.height, BLACK)
         var game: Game = startGame(area)
-        game = startingBalls(game)
+        game = startingBall(game)
         game = startingBlocks(game)
 
         cv.onMouseMove { me ->
