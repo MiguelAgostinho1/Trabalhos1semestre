@@ -17,7 +17,7 @@ fun collide(b: Ball, g: Game): Int{
         g.racket.x == b.x + b.radius -> 0
         b.x + BALL_RADIUS in g.racket.x .. g.racket.x + 10  -> -3                  //LeftRedArea
         b.x + BALL_RADIUS in g.racket.x + 10 .. g.racket.x + 25 -> -1              //LeftCoralArea
-        b.x + BALL_RADIUS in g.racket.x + 35 .. g.racket.x + 50  -> -1             //RightCoralArea
+        b.x + BALL_RADIUS in g.racket.x + 35 .. g.racket.x + 50  -> 1              //RightCoralArea
         else -> 3                                                                  //RightRedArea
     }
 }
@@ -39,8 +39,7 @@ fun step(maxWidth: Int, b: Ball,g:Game): Ball =
                 b.x !in 0..maxWidth - b.radius -> Ball(b.x - b.dx, b.y, -b.dx, b.dy, b.radius)
                 b.y < b.radius -> Ball(b.x, b.y - b.dy, b.dx, -b.dy, b.radius)
                 b.x + b.radius in (g.racket.x..g.racket.x + RACKET_WIDTH) && b.y == g.racket.y && b.dy == 4 -> Ball(b.x, b.y - b.dy, b.dx + collide(b, g), -b.dy, b.radius)
-                b.y  < BLOCK_HEIGHT*5 && b.x +b.radius in (GOLDEN_BLOCK_X..GOLDEN_BLOCK_X + BLOCK_WIDTH) -> Ball(b.x,b.y - b.dy,b.dx,-b.dy,b.radius)
-                //b.dy == 4 && b.y  > BLOCK_HEIGHT*4 && b.x + b.radius in (GOLDEN_BLOCK_X..GOLDEN_BLOCK_X + BLOCK_WIDTH) -> Ball(b.x,b.y + b.dy,b.dx,b.dy,b.radius)
+                b.y  < BLOCK_HEIGHT*5 && b.y >BLOCK_HEIGHT*4 && b.x + b.radius in (GOLDEN_BLOCK_X..GOLDEN_BLOCK_X + BLOCK_WIDTH + BLOCK_WIDTH/2) -> Ball(b.x,b.y - b.dy,b.dx,-b.dy,b.radius)
                 else -> Ball(b.x + b.dx, b.y + b.dy, b.dx, b.dy, b.radius)
             }
         }
