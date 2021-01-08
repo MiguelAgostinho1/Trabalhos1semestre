@@ -23,7 +23,7 @@ fun Canvas.draw(g: Game){
     this.drawCounter(g.livesLeft)
     this.drawLifesLeft(g)
     g.balls.forEach{balls -> this.drawBalls(balls)}
-    g.blocks.forEach{blocks -> this.drawBlocks(g)}
+    repeat(g.blocks.size) {this.drawBlocks(g)}
 }
 
 fun step(g:Game): Game {
