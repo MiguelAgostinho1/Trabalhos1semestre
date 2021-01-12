@@ -18,11 +18,11 @@ fun draw(cv: Canvas, g: Game){
     cv.erase()
     cv.drawRacket(g.racket)
     g.balls.forEach{balls -> drawBalls(cv,balls)}
-    g.blocks.forEach{blocks -> cv.drawBlocks(blocks,g)}
+    repeat(g.blocks.size) {cv.drawBlocks(g)}
 }
 
 fun moveRacket(x: Int, g: Game): Game {
-    val r: Racket = move(x,g.area, g.racket)
+    val r: Racket = move(x)
     return Game(g.area,r,g.balls,g.blocks,g.livesLeft)
 }
 
@@ -52,6 +52,7 @@ fun addBalls(g: Game): Game {
     val plus: List<Ball>
     if(stuckBalls.isEmpty() && g.balls.isEmpty()){
         plus = g.balls + createBalls(g.racket.x,g.racket.y,0,0)
+        g.livesLeft--
     }
     else{
         plus = g.balls
@@ -111,35 +112,36 @@ fun startingBlocks(g: Game): Game {
     return Game(g.area,g.racket,g.balls,g.blocks,g.livesLeft)
 }
 
-fun Canvas.drawLifesLeft(g:Game){
-    when(g.livesLeft){
+/*fun Canvas.drawLifesLeft(g:Game){
+    for(i in (1 until g.livesLeft)){
+        drawCircle(BALL_RADIUS*i + SPACE_BETWEEN_BALLS*(2*i-1),g.area.height - BALL_RADIUS,BALL_RADIUS, CYAN)
+    }
+    /*when(g.livesLeft){
         6-> {
-            drawCircle(BALL_RADIUS + SPACE_BETWEEN_BALLS,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
-            drawCircle(BALL_RADIUS*2 + SPACE_BETWEEN_BALLS*3,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
-            drawCircle(BALL_RADIUS*3 + SPACE_BETWEEN_BALLS*5,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
-            drawCircle(BALL_RADIUS*4 + SPACE_BETWEEN_BALLS*7,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
-            drawCircle(BALL_RADIUS*5 + SPACE_BETWEEN_BALLS*9,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
+            for(i in (1 until g.livesLeft-1)){
+                drawCircle(BALL_RADIUS*i + SPACE_BETWEEN_BALLS*(2*i-1),g.area.height - BALL_RADIUS,BALL_RADIUS, CYAN)
+            }
         }
         5-> {
-            drawCircle(BALL_RADIUS + SPACE_BETWEEN_BALLS,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
-            drawCircle(BALL_RADIUS*2 + SPACE_BETWEEN_BALLS*3,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
-            drawCircle(BALL_RADIUS*3 + SPACE_BETWEEN_BALLS*5,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
-            drawCircle(BALL_RADIUS*4 + SPACE_BETWEEN_BALLS*7,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
+            for(i in (1 until g.livesLeft-1)){
+                drawCircle(BALL_RADIUS*i + SPACE_BETWEEN_BALLS*(2*i-1),g.area.height - BALL_RADIUS,BALL_RADIUS, CYAN)
+            }
         }
         4-> {
-            drawCircle(BALL_RADIUS + SPACE_BETWEEN_BALLS,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
-            drawCircle(BALL_RADIUS*2 + SPACE_BETWEEN_BALLS*3,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
-            drawCircle(BALL_RADIUS*3 + SPACE_BETWEEN_BALLS*5,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
+            for(i in (1 until g.livesLeft-1)){
+                drawCircle(BALL_RADIUS*i + SPACE_BETWEEN_BALLS*(2*i-1),g.area.height - BALL_RADIUS,BALL_RADIUS, CYAN)
+            }
         }
         3-> {
-            drawCircle(BALL_RADIUS + SPACE_BETWEEN_BALLS,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
-            drawCircle(BALL_RADIUS*2 + SPACE_BETWEEN_BALLS*3,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
+            for(i in (1 until g.livesLeft-1)){
+                drawCircle(BALL_RADIUS*i + SPACE_BETWEEN_BALLS*(2*i-1),g.area.height - BALL_RADIUS,BALL_RADIUS, CYAN)
+            }
         }
         2-> {
             drawCircle(BALL_RADIUS + SPACE_BETWEEN_BALLS,g.area.height - BALL_RADIUS,BALL_RADIUS,CYAN)
         }
-    }
-}
+    }*/
+}*/
 
 fun drawCounter(cv: Canvas, counter: Int){
     cv.drawText(cv.width/2 - FONT_SIZE,cv.height,counter.toString(),WHITE,FONT_SIZE)
@@ -169,9 +171,6 @@ fun main(){
         cv.onMouseDown {
             if(game.livesLeft > 0 || game.blocks.isEmpty()){
                 game = addBalls(game)
-            }
-            else{
-                null
             }
         }
 

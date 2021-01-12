@@ -22,15 +22,9 @@ fun collide(b: Ball, g: Game): Int{
     }
 }
 
-fun ballLeavesCanvas(b: Ball,g: Game): Boolean{
-    if(b.y >= g.area.height){
-    g.livesLeft--
-    }
-    else{
-        null
-    }
-    return b.y >= g.area.height
-}
+fun ballLeavesCanvas(b: Ball,g: Game): Boolean =
+    b.y >= g.area.height
+
 
 
 fun step(maxWidth: Int, b: Ball,g:Game): Ball =
