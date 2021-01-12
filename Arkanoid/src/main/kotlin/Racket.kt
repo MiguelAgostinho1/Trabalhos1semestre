@@ -14,7 +14,7 @@ const val RACKET_CORAL_POSITION: Int = RACKET_RED_WIDTH + RACKET_CORAL_WIDTH + R
 
 data class Racket(val x: Int, val y: Int = RACKET_Y,val width: Int,val height: Int)
 
-fun move(x: Int): Racket = Racket(x,RACKET_Y,RACKET_WIDTH,RACKET_HEIGHT)
+fun move(x: Int,a: Area, r: Racket): Racket = Racket(x,RACKET_Y,RACKET_WIDTH,RACKET_HEIGHT)
 
 fun Canvas.drawRacket(r: Racket){
     this.erase()
@@ -24,9 +24,4 @@ fun Canvas.drawRacket(r: Racket){
     this.drawRect(r.x + RACKET_RED_WIDTH,r.y-r.height/2,RACKET_CORAL_WIDTH,r.height/2,0xFF7F50)        //LEFT CORAL PART
     this.drawRect(r.x + RACKET_RED_POSITION,r.y-r.height/2,RACKET_RED_WIDTH,r.height/2,RED)                 //RIGHT RED PART
     this.drawRect(r.x + RACKET_CORAL_POSITION,r.y-r.height/2,RACKET_CORAL_WIDTH,r.height/2,0xFF7F50)   //RIGHT CORAL PART
-}
-
-fun moveRacket(x: Int, g: Game): Game {
-    val r: Racket = move(x)
-    return Game(g.area,r,g.balls,g.blocks,g.livesLeft)
 }
