@@ -71,10 +71,3 @@ fun Canvas.drawBlocks(game: Game){
         }
     }
 }
-
-fun ballHitsBlocks(ball: Ball, game: Game){
-    //saber quais são os blocos onde a bola bate (lista de blocos ou lista vazia)
-    //se bater calcular a reflexão
-    //tratar dos blocos (vida)
-    //criar um novo jogo com a nova bola e com a nova lista de blocos (se houve colisão)
-}

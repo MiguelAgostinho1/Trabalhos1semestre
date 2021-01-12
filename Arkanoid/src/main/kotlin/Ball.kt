@@ -39,6 +39,9 @@ fun ballLeavesCanvas(b: Ball,g: Game): Boolean{
     if(b.y >= g.area.height){
     g.livesLeft--
     }
+    else{
+        null
+    }
     return b.y >= g.area.height
 }
 
@@ -58,12 +61,12 @@ fun step(maxWidth: Int, b: Ball,g:Game): Ball =
                 b.y < b.radius -> Ball(b.x, b.y - b.dy, b.dx, -b.dy, b.radius)
                 b.x in (g.racket.x..g.racket.x + RACKET_WIDTH) && b.y == g.racket.y && b.dy == 4 ->
                     Ball(b.x, b.y - b.dy, b.dx + collide(b, g), -b.dy, b.radius)
-                b.y  < BLOCK_HEIGHT*5 && b.y > BLOCK_HEIGHT*4 && b.x + b.radius in (GOLDEN_BLOCK_X..GOLDEN_BLOCK_X + BLOCK_WIDTH + BLOCK_WIDTH/2) ->
+                b.y  < BLOCK_HEIGHT*5 && b.y > BLOCK_HEIGHT*4 && b.x + b.radius in (GOLDEN_BLOCK_X -BLOCK_WIDTH..GOLDEN_BLOCK_X + BLOCK_WIDTH*2 + BLOCK_WIDTH/2) ->
                     Ball(b.x,b.y - b.dy,b.dx,-b.dy,b.radius)
-                b.x == GOLDEN_BLOCK_X && b.y in (GOLDEN_BLOCK_Y downTo GOLDEN_BLOCK_Y - BLOCK_HEIGHT) ->
+                b.x == GOLDEN_BLOCK_X - BLOCK_WIDTH && b.y in (GOLDEN_BLOCK_Y..GOLDEN_BLOCK_Y - BLOCK_HEIGHT) ->
+                    Ball(b.x + b.dx, b.y, b.dx, b.dy, b.radius)
+                b.x == GOLDEN_BLOCK_X + BLOCK_WIDTH*2 && b.y in (GOLDEN_BLOCK_Y..GOLDEN_BLOCK_Y - BLOCK_HEIGHT) ->
                     Ball(b.x - b.dx, b.y, -b.dx, b.dy, b.radius)
-                b.x == GOLDEN_BLOCK_X + BLOCK_WIDTH && b.y in (GOLDEN_BLOCK_Y downTo GOLDEN_BLOCK_Y - BLOCK_HEIGHT) ->
-                    Ball(b.x - b.dx, b.y, b.dx, b.dy, b.radius)
                 else -> Ball(b.x + b.dx, b.y + b.dy, b.dx, b.dy, b.radius)
             }
         }
