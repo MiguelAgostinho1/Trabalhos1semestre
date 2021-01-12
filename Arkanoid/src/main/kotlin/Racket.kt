@@ -16,6 +16,11 @@ data class Racket(val x: Int, val y: Int = RACKET_Y,val width: Int,val height: I
 
 fun move(x: Int): Racket = Racket(x,RACKET_Y,RACKET_WIDTH,RACKET_HEIGHT)
 
+fun moveRacket(x: Int, g: Game): Game {
+    val r: Racket = move(x)
+    return Game(g.area,r,g.balls,g.blocks,g.livesLeft)
+}
+
 fun Canvas.drawRacket(r: Racket){
     this.erase()
     this.drawRect(r.x,r.y,r.width,r.height/2,WHITE) //BASE

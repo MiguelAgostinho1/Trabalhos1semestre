@@ -8,8 +8,36 @@ data class Ball(val x: Int, val y: Int, var dx: Int, var dy: Int, val radius: In
 fun createBalls(x: Int, y: Int, dx: Int, dy: Int): Ball =
         Ball(x-30,y-12,dx,dy,BALL_RADIUS)
 
+fun startingBall(g: Game): Game{
+    val startingBalls: List<Ball> = g.balls + createBalls(g.racket.x + RACKET_CENTER_POSITION,g.racket.y - RACKET_CENTER_WIDTH,0,0)
+    return Game(g.area,g.racket,startingBalls,g.blocks,g.livesLeft)
+}
+
+fun addBalls(g: Game): Game {
+    val stuckBalls: List<Ball> = g.balls.filter{balls ->  balls.dy == 0}
+    val plus: List<Ball>
+    if(stuckBalls.isEmpty() && g.balls.isEmpty()){
+        plus = g.balls + createBalls(g.racket.x,g.racket.y,0,0)
+        g.livesLeft--
+    }
+    else{
+        plus = g.balls
+        plus.forEach { balls -> ballSpeed(balls)}
+    }
+    return Game(g.area,g.racket,plus,g.blocks,g.livesLeft)
+}
+
 fun drawBalls(cv:Canvas, b:Ball){
     cv.drawCircle(b.x,b.y,b.radius,CYAN)
+}
+
+fun ballSpeed(b: Ball):Ball{
+    when(b.dy){
+        0 -> b.dy = -4
+        4 -> b.dy = 4
+        -4 -> b.dy = -4
+    }
+    return Ball(b.x,b.y,b.dx,b.dy,b.radius)
 }
 
 fun collide(b: Ball, g: Game): Int{
