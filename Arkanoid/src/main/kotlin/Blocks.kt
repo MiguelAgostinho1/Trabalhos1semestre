@@ -12,7 +12,7 @@ const val BLOCK_HEIGHT:Int = 15
 const val GOLDEN_BLOCK_X = BLOCK_WIDTH*6
 const val GOLDEN_BLOCK_Y = BLOCK_HEIGHT*4
 
-data class Blocks(val x:Int, val y:Int, val hp:Int, val color: Int)
+data class Blocks(val x:Int, val y:Int, var hp:Int, val color: Int)
 
 fun blocksWithZeroHp(b:Blocks):Boolean =
         b.hp == 0
