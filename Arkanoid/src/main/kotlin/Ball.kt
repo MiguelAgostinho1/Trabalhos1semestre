@@ -1,6 +1,5 @@
 import pt.isel.canvas.Canvas
 import pt.isel.canvas.CYAN
-import kotlin.math.abs
 
 const val BALL_RADIUS: Int = 7
 
@@ -16,7 +15,8 @@ fun startingBall(g: Game): Game{
 
 fun addBalls(g: Game): Game {
     val stuckBalls: List<Ball> = g.balls.filter{balls ->  balls.dy == 0}
-    val plus: List<Ball>
+    var plus: List<Ball> = g.balls
+    if(g.livesLeft > 0){
     if(stuckBalls.isEmpty() && g.balls.isEmpty()){
         plus = g.balls + createBalls(g.racket.x,g.racket.y,0,0)
         g.livesLeft--
@@ -24,6 +24,7 @@ fun addBalls(g: Game): Game {
     else{
         plus = g.balls
         plus.forEach { balls -> ballSpeed(balls)}
+    }
     }
     return Game(g.area,g.racket,plus,g.blocks,g.livesLeft,g.points)
 }
@@ -35,19 +36,17 @@ fun drawBalls(cv:Canvas, b:Ball){
 fun ballSpeed(b: Ball):Ball{
     when(b.dy){
         0 -> b.dy = -4
-        4 -> b.dy = 4
-        -4 -> b.dy = -4
     }
     return Ball(b.x,b.y,b.dx,b.dy,b.radius)
 }
 
 fun collide(b: Ball, g: Game): Int{
     return when(b.dy > -4 && b.dx < 6 && b.dx > -6) {
-        b.x == g.racket.x + BALL_RADIUS -> 0                                       //CenterArea
-        b.x + BALL_RADIUS in g.racket.x .. g.racket.x + 10  -> -3                  //LeftRedArea
-        b.x + BALL_RADIUS in g.racket.x + 10 .. g.racket.x + 25 -> -1              //LeftCoralArea
-        b.x + BALL_RADIUS in g.racket.x + 35 .. g.racket.x + 50  -> 1              //RightCoralArea
-        else -> 3                                                                  //RightRedArea
+        b.x in (g.racket.x + 26 .. g.racket.x + 35) -> 0             //CenterArea
+        b.x in g.racket.x - 1 .. g.racket.x + 10  -> -3              //LeftRedArea
+        b.x in g.racket.x + 11 .. g.racket.x + 25 -> -1              //LeftCoralArea
+        b.x in g.racket.x + 36 .. g.racket.x + 50  -> 1              //RightCoralArea
+        else -> 3                                                    //RightRedArea
     }
 }
 
@@ -80,17 +79,18 @@ fun ballHitsBlocks(ball:Ball, game:Game):Ball{
 }
 
 fun step(maxWidth: Int, b: Ball,g:Game): Ball =
-        if(b.dy == 4 || b.dy == -4) {
+        if(b.dy == 4 || b.dy == -4 && g.blocks.isNotEmpty()) {
             when {
                 b.x !in 0..maxWidth - b.radius -> Ball(b.x - b.dx, b.y, -b.dx, b.dy, b.radius)
                 b.y < b.radius -> Ball(b.x, b.y - b.dy, b.dx, -b.dy, b.radius)
                 b.x in (g.racket.x..g.racket.x + RACKET_WIDTH) && b.y == g.racket.y && b.dy == 4 ->
                     Ball(b.x, b.y - b.dy, b.dx + collide(b, g), -b.dy, b.radius)
-                b.y  < BLOCK_HEIGHT*5 && b.y > BLOCK_HEIGHT*4 && b.x + b.radius in (GOLDEN_BLOCK_X..GOLDEN_BLOCK_X + BLOCK_WIDTH + BLOCK_WIDTH/2) ->
-                    Ball(b.x,b.y - b.dy,b.dx,-b.dy,b.radius)
-
                 b.x in (GOLDEN_BLOCK_X..GOLDEN_BLOCK_X + BLOCK_WIDTH) && b.y in (GOLDEN_BLOCK_Y..GOLDEN_BLOCK_Y + BLOCK_HEIGHT) ->
                     Ball(b.x - b.dx, b.y - b.dy, -b.dx, -b.dy, b.radius)
+                b.x + BALL_RADIUS in (GOLDEN_BLOCK_X until GOLDEN_BLOCK_X + BLOCK_WIDTH/2) && b.y in (GOLDEN_BLOCK_Y .. GOLDEN_BLOCK_Y + BLOCK_HEIGHT) ->
+                    Ball(b.x - b.dx, b.y, -b.dx, b.dy, b.radius)
+                b.x + BALL_RADIUS in (GOLDEN_BLOCK_X + BLOCK_WIDTH/2 .. GOLDEN_BLOCK_X + BLOCK_WIDTH) && b.y in (GOLDEN_BLOCK_Y .. GOLDEN_BLOCK_Y + BLOCK_HEIGHT) ->
+                    Ball(b.x - b.dx, b.y, -b.dx, b.dy, b.radius)
                 b.dy == -4 || b.dy == 4 -> ballHitsBlocks(b,g)
                 else -> Ball(b.x + b.dx, b.y + b.dy, b.dx, b.dy, b.radius)
             }

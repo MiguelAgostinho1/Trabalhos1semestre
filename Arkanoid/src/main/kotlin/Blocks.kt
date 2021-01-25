@@ -63,7 +63,7 @@ fun addLeftBlocksToList(g: Game):List<Blocks>{
 }
 
 fun addCenterBlocksToList(g: Game):List<Blocks>{
-    var centerStarting: List<Blocks> = g.blocks + createBlocks(BLOCK_WIDTH*5,BLOCK_HEIGHT + BLOCK_HEIGHT*3, 1, WHITE) +
+    var centerStarting: List<Blocks> = g.blocks + createBlocks(BLOCK_WIDTH*5,BLOCK_HEIGHT*4, 1, WHITE) +
             createBlocks(BLOCK_WIDTH*7,BLOCK_HEIGHT*4, 1, WHITE)
     for (i: Int in 0..2) {
         centerStarting = centerStarting + createBlocks(BLOCK_WIDTH*5 + BLOCK_WIDTH * i, BLOCK_HEIGHT*5, 1, ORANGE) +

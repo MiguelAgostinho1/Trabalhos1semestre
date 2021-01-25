@@ -17,24 +17,28 @@ fun main(){
         cv.onTimeProgress(10){
             game = step(game)
             draw(cv,game)
-            drawCounter(cv,game.points)
+            if(game.blocks.isNotEmpty()){
+                drawCounter(cv,game.points)
+            }
+            else{
+                drawCounter(cv,game.points + 10*game.livesLeft)
+            }
             cv.drawLifesLeft(game)
         }
 
         cv.onMouseDown {
-            if(game.livesLeft > 0 || game.blocks.isEmpty()){
+            if(game.livesLeft > 0 && game.blocks.isNotEmpty()){
                 game = addBalls(game)
             }
         }
 
-        cv.onTime(5000){
-            cv.onTimeProgress(10){
-                if(game.livesLeft == 0){
-                    cv.drawText(0,game.area.height,"Game Over",RED,FONT_SIZE)
-                }
-                if(game.blocks.isEmpty()){
-                    cv.drawText(game.area.width,game.area.height,"Finish",YELLOW,FONT_SIZE)
-                }
+        cv.onTimeProgress(10){
+            if(game.livesLeft == 0){
+                cv.drawText(0,game.area.height,"Game Over",RED,FONT_SIZE)
+            }
+            if(game.blocks.isEmpty()){
+                game = finishedGame(cv,game)
+                cv.drawText(game.area.width - FONT_SIZE*4,game.area.height,"Finish", YELLOW,FONT_SIZE)
             }
         }
     }

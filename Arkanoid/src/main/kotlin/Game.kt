@@ -22,6 +22,16 @@ fun draw(cv: Canvas, g: Game){
     repeat(g.blocks.size) {cv.drawBlocks(g)}
 }
 
+fun finishedGame(cv: Canvas, g: Game): Game{
+    cv.erase()
+    cv.drawRacket(g.racket)
+    g.balls.forEach{balls -> drawBalls(cv,balls)}
+    repeat(g.livesLeft) {cv.drawLifesLeft(g)}
+    cv.drawRect(GOLDEN_BLOCK_X,GOLDEN_BLOCK_Y,BLOCK_WIDTH,BLOCK_HEIGHT,GOLD,1)
+    cv.drawRect(GOLDEN_BLOCK_X,GOLDEN_BLOCK_Y,BLOCK_WIDTH-1,BLOCK_HEIGHT-1,GOLD)
+    return Game(g.area,g.racket,g.balls,g.blocks,g.livesLeft,g.points)
+}
+
 fun step(g:Game): Game {
     val movedBalls: List<Ball> = g.balls.map{ balls -> step(g.area.width,balls,g)}
     val leftBalls: List<Ball> =  movedBalls.filter{ balls -> !ballLeavesCanvas(balls,g)}
