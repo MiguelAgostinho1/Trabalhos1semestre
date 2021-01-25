@@ -18,7 +18,7 @@ fun move(x: Int): Racket = Racket(x,RACKET_Y,RACKET_WIDTH,RACKET_HEIGHT)
 
 fun moveRacket(x: Int, g: Game): Game {
     val r: Racket = move(x)
-    return Game(g.area,r,g.balls,g.blocks,g.livesLeft)
+    return Game(g.area,r,g.balls,g.blocks,g.livesLeft,g.points)
 }
 
 fun Canvas.drawRacket(r: Racket){

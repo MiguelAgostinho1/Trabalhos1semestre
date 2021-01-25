@@ -17,7 +17,7 @@ fun main(){
         cv.onTimeProgress(10){
             game = step(game)
             draw(cv,game)
-            drawCounter(cv,game.livesLeft)
+            drawCounter(cv,game.points)
             cv.drawLifesLeft(game)
         }
 

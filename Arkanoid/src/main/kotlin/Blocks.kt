@@ -14,8 +14,20 @@ const val GOLDEN_BLOCK_Y = BLOCK_HEIGHT*4
 
 data class Blocks(val x:Int, val y:Int, var hp:Int, val color: Int)
 
-fun blocksWithZeroHp(b:Blocks):Boolean =
-        b.hp == 0
+fun blocksWithZeroHp(b:Blocks, g: Game):Boolean{
+    when{
+        b.color == WHITE && b.hp == 0 -> g.points += 1
+        b.color == ORANGE && b.hp == 0 -> g.points += 2
+        b.color == CYAN && b.hp == 0 -> g.points += 3
+        b.color == GREEN && b.hp == 0 -> g.points += 4
+        b.color == RED && b.hp == 0 -> g.points += 6
+        b.color == BLUE && b.hp == 0 -> g.points += 7
+        b.color == MAGENTA && b.hp == 0 -> g.points += 8
+        b.color == YELLOW && b.hp == 0 -> g.points += 9
+        else -> g.points += 0
+    }
+    return b.hp == 0
+}
 
 fun createBlocks(x: Int, y: Int, hp: Int, color: Int):Blocks =
         Blocks(x,y,hp,color)
@@ -68,7 +80,7 @@ fun addCenterBlocksToList(g: Game):List<Blocks>{
 fun startingBlocks(g: Game): Game {
     val starting: List<Blocks> = addRightBlocksToList(g) + addCenterBlocksToList(g) + addLeftBlocksToList(g)
     g.blocks = starting
-    return Game(g.area,g.racket,g.balls,g.blocks,g.livesLeft)
+    return Game(g.area,g.racket,g.balls,g.blocks,g.livesLeft,g.points)
 }
 
 fun Canvas.drawBlocks(game: Game){
