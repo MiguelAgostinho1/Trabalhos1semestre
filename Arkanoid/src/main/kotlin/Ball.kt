@@ -1,6 +1,5 @@
 import pt.isel.canvas.Canvas
 import pt.isel.canvas.CYAN
-import kotlin.math.abs
 
 const val BALL_RADIUS: Int = 7
 
@@ -43,7 +42,7 @@ fun ballSpeed(b: Ball):Ball{
 
 fun collide(b: Ball, g: Game): Int{
     return when(b.dy > -4) {
-        g.racket.x == b.x + b.radius -> 0
+        b.x == g.racket.x + BALL_RADIUS -> 0                                       //CenterArea
         b.x + BALL_RADIUS in g.racket.x .. g.racket.x + 10  -> -3                  //LeftRedArea
         b.x + BALL_RADIUS in g.racket.x + 10 .. g.racket.x + 25 -> -1              //LeftCoralArea
         b.x + BALL_RADIUS in g.racket.x + 35 .. g.racket.x + 50  -> 1              //RightCoralArea
@@ -58,21 +57,18 @@ fun ballHitsBlocks(ball:Ball, game:Game):Ball{
     var b = Ball(ball.x + ball.dx, ball.y + ball.dy, ball.dx, ball.dy, ball.radius)
     for(i in game.blocks.indices){
         when{
-            ball.x in (game.blocks[i].x..game.blocks[i].x + BLOCK_WIDTH) && ball.y in (game.blocks[i].y..game.blocks[i].y + BLOCK_HEIGHT) ->{
-                game.blocks[i].hp = game.blocks[i].hp - 1
-                b = Ball(ball.x, ball.y - ball.dy, ball.dx, -ball.dy, ball.radius)
-            }
             ball.x == game.blocks[i].x && ball.y in (game.blocks[i].y..game.blocks[i].y + BLOCK_HEIGHT) ->{
                 game.blocks[i].hp = game.blocks[i].hp - 1
                 b = Ball(ball.x - ball.dx, ball.y, -ball.dx, ball.dy, ball.radius)
             }
             ball.x == game.blocks[i].x + BLOCK_WIDTH && ball.y in (game.blocks[i].y..game.blocks[i].y + BLOCK_HEIGHT) ->{
                 game.blocks[i].hp = game.blocks[i].hp - 1
-                ball.dx = abs(ball.dx)
-                b = Ball(ball.x + ball.dx, ball.y, ball.dx, ball.dy, ball.radius)
+                b = Ball(ball.x - ball.dx, ball.y, -ball.dx, ball.dy, ball.radius)
             }
-            //ball.x == game.blocks[i].x + BLOCK_WIDTH && ball.y in (game.blocks[i].y..game.blocks[i].y + BLOCK_HEIGHT) ->
-                //Ball(ball.x + ball.dx, ball.y, ball.dx, ball.dy, ball.radius)
+            ball.x in (game.blocks[i].x..game.blocks[i].x + BLOCK_WIDTH) && ball.y in (game.blocks[i].y..game.blocks[i].y + BLOCK_HEIGHT) ->{
+                game.blocks[i].hp = game.blocks[i].hp - 1
+                b = Ball(ball.x, ball.y - ball.dy, ball.dx, -ball.dy, ball.radius)
+            }
         }
     }
     return b
@@ -87,7 +83,6 @@ fun step(maxWidth: Int, b: Ball,g:Game): Ball =
                     Ball(b.x, b.y - b.dy, b.dx + collide(b, g), -b.dy, b.radius)
                 b.y  < BLOCK_HEIGHT*5 && b.y > BLOCK_HEIGHT*4 && b.x + b.radius in (GOLDEN_BLOCK_X..GOLDEN_BLOCK_X + BLOCK_WIDTH + BLOCK_WIDTH/2) ->
                     Ball(b.x,b.y - b.dy,b.dx,-b.dy,b.radius)
-                //b.x == GOLDEN_BLOCK_X && b.y in (GOLDEN_BLOCK_Y..GOLDEN_BLOCK_Y + BLOCK_HEIGHT) -> Ball(b.x - b.dx, b.y, -b.dx, b.dy, b.radius)
                 b.x in (GOLDEN_BLOCK_X..GOLDEN_BLOCK_X + BLOCK_WIDTH) && b.y in (GOLDEN_BLOCK_Y..GOLDEN_BLOCK_Y + BLOCK_HEIGHT) ->
                     Ball(b.x - b.dx, b.y - b.dy, -b.dx, -b.dy, b.radius)
                 b.dy == -4 || b.dy == 4 -> ballHitsBlocks(b,g)
